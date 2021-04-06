@@ -1,5 +1,6 @@
 package ar.edu.unahur.obj2.vendedores
 
+
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -23,7 +24,7 @@ class VendedorTest : DescribeSpec({
   }
 
   describe("Viajante") {
-    val cordoba = Provincia(2000000)
+    val cordoba = Provincia(20000000)
     val villaDolores = Ciudad(cordoba)
     val viajante = Viajante(listOf(misiones))
 
@@ -36,4 +37,23 @@ class VendedorTest : DescribeSpec({
       }
     }
   }
+  describe("ComercioCorresponal") {
+    val santaFe = Provincia(3000000)
+    val rafaela = Ciudad(santaFe)
+    val viajante = Viajante(listOf(santaFe))
+    describe("puedeTrabajarEn") {
+      it("una ciuad que tenga sucursal") {
+        viajante.puedeTrabajarEn(rafaela).shouldBeTrue()
+      }
+      it("una ciudad que no tiene sucursal") {
+        viajante.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
+      }
+    }
+  }
 })
+
+//class CentroTest : DescribeSpec({
+//  val santaFe = Provincia(3000000)
+//  val rafaela = Ciudad(santaFe)
+//  val vendedorFijo = VendedorFijo(rafaela)
+//})
