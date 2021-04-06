@@ -25,13 +25,14 @@ abstract class Vendedor {
   fun esGenerico(): Boolean  =
     certificaciones.any { c -> !c.esDeProducto }
 
-
+// realiza una accion de agregar/quitar un objeto a la lista
   fun agregarCertificacion(certificacion: Certificacion) {
     certificaciones.add(certificacion)
   }
-  fun quitar(certificacion: Certificacion) =
+  fun quitar(certificacion: Certificacion) {
     certificaciones.remove(certificacion)
-
+  }
+// devuelve un booleano
   fun esFirme() = this.puntajeCertificaciones() >= 30
 
   fun certificacionesDeProducto() = certificaciones.count { it.esDeProducto }

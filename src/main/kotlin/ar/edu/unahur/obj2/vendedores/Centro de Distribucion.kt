@@ -7,9 +7,8 @@ class CentroDeDistribucion {
     fun agregarVendedor(vendedor: Vendedor) {
         if (vendedores.contains(vendedor)) {
             throw Exception ("ya esta agregado")
-        } else {
-            vendedores.add(vendedor)
         }
+        vendedores.add(vendedor)
     }
     fun vendedorEstrella() = vendedores.maxBy {v -> v.puntajeCertificaciones() }
 
