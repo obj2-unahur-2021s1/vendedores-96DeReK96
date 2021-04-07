@@ -12,6 +12,9 @@ class VendedorTest : DescribeSpec({
   describe("Vendedor fijo") {
     val obera = Ciudad(misiones)
     val vendedorFijo = VendedorFijo(obera)
+    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = true, puntaje = 30))
+    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = false, puntaje = 50))
+    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = true, puntaje = 15))
 
     describe("puedeTrabajarEn") {
       it("su ciudad de origen") {
@@ -19,6 +22,12 @@ class VendedorTest : DescribeSpec({
       }
       it("otra ciudad") {
         vendedorFijo.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
+      }
+      it("es versatil") {
+        vendedorFijo.esVersatil().shouldBeTrue()
+      }
+      it("es firme") {
+        vendedorFijo.esFirme().shouldBeTrue()
       }
     }
   }
@@ -50,7 +59,10 @@ class VendedorTest : DescribeSpec({
       }
     }
   }
+
 })
+
+// continuar con etapa 2
 
 //class CentroTest : DescribeSpec({
 //  val santaFe = Provincia(3000000)

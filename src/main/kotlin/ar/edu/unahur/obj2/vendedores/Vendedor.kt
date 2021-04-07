@@ -1,5 +1,5 @@
 package ar.edu.unahur.obj2.vendedores
-
+//al crear esta clase, si queremos agragar val, tenemos que definir si son booleano o un numero entero
 class Certificacion(val esDeProducto: Boolean, val puntaje: Int)
 
 abstract class Vendedor {
