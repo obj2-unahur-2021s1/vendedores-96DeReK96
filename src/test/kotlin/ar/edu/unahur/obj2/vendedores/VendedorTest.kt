@@ -16,6 +16,7 @@ class VendedorTest : DescribeSpec({
     vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = false, puntaje = 50))
     vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = true, puntaje = 15))
 
+
     describe("puedeTrabajarEn") {
       it("su ciudad de origen") {
         vendedorFijo.puedeTrabajarEn(obera).shouldBeTrue()
@@ -26,38 +27,61 @@ class VendedorTest : DescribeSpec({
       it("es versatil") {
         vendedorFijo.esVersatil().shouldBeTrue()
       }
-      it("es firme") {
+    }
+
+    describe("es firme") {
+      it("el vendedor fijo, es firme") {
         vendedorFijo.esFirme().shouldBeTrue()
+      }
+    }
+    describe("es influyente") {
+      it("no es influyente") {
+        vendedorFijo.esInfluyente().shouldBeFalse()
+
       }
     }
   }
 
   describe("Viajante") {
     val cordoba = Provincia(20000000)
-    val villaDolores = Ciudad(cordoba)
-    val viajante = Viajante(listOf(misiones))
+    val viajante = Viajante(listOf(misiones, cordoba))
+
 
     describe("puedeTrabajarEn") {
       it("una ciudad que pertenece a una provincia habilitada") {
         viajante.puedeTrabajarEn(sanIgnacio).shouldBeTrue()
       }
-      it("una ciudad que no pertenece a una provincia habilitada") {
-        viajante.puedeTrabajarEn(villaDolores).shouldBeFalse()
+      it("es influyente") {
+        viajante.esInfluyente().shouldBeTrue()
       }
     }
   }
   describe("ComercioCorresponal") {
     val santaFe = Provincia(3000000)
+    val cordoba = Provincia(2000000)
+    val entreRios = Provincia(1000000)
+
+    val rosario = Ciudad(santaFe)
     val rafaela = Ciudad(santaFe)
-    val viajante = Viajante(listOf(santaFe))
+    val sanFrancisco = Ciudad(cordoba)
+    val diamante = Ciudad(entreRios)
+
+    val vendedorComerciante = ComercioCorresponsal(listOf(rosario, rafaela, sanFrancisco, diamante))
     describe("puedeTrabajarEn") {
       it("una ciuad que tenga sucursal") {
-        viajante.puedeTrabajarEn(rafaela).shouldBeTrue()
+        vendedorComerciante.puedeTrabajarEn(rosario).shouldBeTrue()
       }
       it("una ciudad que no tiene sucursal") {
-        viajante.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
+        vendedorComerciante.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
+      }
+      // cumple la condicion de 3 provincias
+      it("es influyente") {
+        vendedorComerciante.esInfluyente().shouldBeTrue()
       }
     }
+  }
+  describe("centroDeDistribucion") {
+
   }
 
 })

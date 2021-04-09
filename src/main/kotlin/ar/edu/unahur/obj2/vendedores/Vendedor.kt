@@ -71,3 +71,27 @@ class ComercioCorresponsal(val ciudades: List<Ciudad>) : Vendedor() {
   override fun esInfluyente(): Boolean = (ciudades.size > 4) or (this.provincias().size >2)
 
 }
+
+class CentroDeDistrib(val ciudadActual: Ciudad) {
+  val vendedoresQueTrabajan = mutableListOf<Vendedor>()
+
+  var vendedoresFirmes = vendedoresQueTrabajan.filter { v -> v.esFirme() }
+
+  fun agregarVendedor(vendedor: Vendedor) {
+    if (vendedoresQueTrabajan.contains(vendedor)) {
+      throw Exception ("ya esta agregado")
+    }
+    vendedoresQueTrabajan.add(vendedor)
+  }
+
+  fun vendedorEstrella() = vendedoresQueTrabajan.maxBy {v -> v.puntajeCertificaciones() }
+
+  fun puedeCubrir(city: Ciudad): Boolean =
+    vendedoresQueTrabajan.any {v -> v.puedeTrabajarEn(city)}
+  fun vendedoresGenericos() =
+    vendedoresQueTrabajan.filter { v -> v.esGenerico() }
+  fun esRobusto(): Boolean {
+    val vendedoresFirmes = vendedoresQueTrabajan.count() { v -> v.esFirme() }
+    return vendedoresFirmes > 2
+  }
+}
