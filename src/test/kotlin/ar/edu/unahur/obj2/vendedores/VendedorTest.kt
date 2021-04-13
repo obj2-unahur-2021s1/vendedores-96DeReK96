@@ -9,23 +9,35 @@ class VendedorTest : DescribeSpec({
   val misiones = Provincia(1300000)
   val sanIgnacio = Ciudad(misiones)
 
+  val certificacionProd = Certificacion(true,8)
+  val certificacionNoProducto = Certificacion(false,7)
+  val certificacionProd2 = Certificacion(true,15)
+
   describe("Vendedor fijo") {
+    //asignamos una ciudad nueva y su misma provincia (misiones).
     val obera = Ciudad(misiones)
+    // creamos un vendedor Fijo que vive en Obera en provincia Misiones
     val vendedorFijo = VendedorFijo(obera)
-    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = true, puntaje = 30))
-    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = false, puntaje = 50))
-    vendedorFijo.agregarCertificacion(Certificacion(esDeProducto = true, puntaje = 15))
+
+
+    vendedorFijo.agregarCertificacion(certificacionProd)
+    vendedorFijo.agregarCertificacion(certificacionNoProducto)
+    vendedorFijo.agregarCertificacion(certificacionProd2)
 
 
     describe("puedeTrabajarEn") {
       it("su ciudad de origen") {
         vendedorFijo.puedeTrabajarEn(obera).shouldBeTrue()
       }
-      it("otra ciudad") {
+      it("otra ciudad que no es su origen") {
         vendedorFijo.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
       }
       it("es versatil") {
         vendedorFijo.esVersatil().shouldBeTrue()
+      }
+      it("no versatil") {
+        vendedorFijo.quitar(certificacionProd2)
+        vendedorFijo.esVersatil().shouldBeFalse()
       }
     }
 
@@ -33,8 +45,13 @@ class VendedorTest : DescribeSpec({
       it("el vendedor fijo, es firme") {
         vendedorFijo.esFirme().shouldBeTrue()
       }
+      it("el vendedor fijo no es firme") {
+        vendedorFijo.quitar(certificacionProd2)
+        vendedorFijo.esFirme().shouldBeFalse()
+      }
     }
     describe("es influyente") {
+      // Siempre queda No Influyente
       it("no es influyente") {
         vendedorFijo.esInfluyente().shouldBeFalse()
 
@@ -43,6 +60,8 @@ class VendedorTest : DescribeSpec({
   }
 
   describe("Viajante") {
+    val chubut = Provincia(220000)
+    val rawson = Ciudad(chubut)
     val cordoba = Provincia(20000000)
     val viajante = Viajante(listOf(misiones, cordoba))
 
@@ -50,6 +69,9 @@ class VendedorTest : DescribeSpec({
     describe("puedeTrabajarEn") {
       it("una ciudad que pertenece a una provincia habilitada") {
         viajante.puedeTrabajarEn(sanIgnacio).shouldBeTrue()
+      }
+      it("una ciudad que no pertenece a una provincia habilitada") {
+        viajante.puedeTrabajarEn(rawson).shouldBeFalse()
       }
       it("es influyente") {
         viajante.esInfluyente().shouldBeTrue()
